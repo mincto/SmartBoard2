@@ -24,22 +24,8 @@ public class MyListAdapter extends BaseAdapter {
         this.context=context;
 
         inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-
-        /*데이터 베이스 연동 전에, 리스트뷰의 모습을 미리 보자!*/
-        /*
-        for(int i=0;i<20;i++) {
-            Board dto = new Board();
-            dto.setTitle(i+"번째 제목입니다.");
-            dto.setWriter(i + "번째 작성자입니다.");
-            dto.setRegdate("2015-01-" + i);
-
-            list.add(dto);
-        }
-        */
-        /*
-            HttpClientManager manager = new HttpClientManager();
-            manager.request();
-        */
+        BoardAsyncTask boardAsyncTask = new BoardAsyncTask("list", (MainActivity)context );
+        boardAsyncTask.execute("http://192.168.0.142:8080/android/board/list", null);
     }
 
     /* 총 몇개의 아이템으로 이루어졌는지 결정하는 메서드*/

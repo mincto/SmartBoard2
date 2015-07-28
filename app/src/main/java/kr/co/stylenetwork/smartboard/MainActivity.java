@@ -1,6 +1,7 @@
 package kr.co.stylenetwork.smartboard;
 
 import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,14 +13,15 @@ import android.widget.Toast;
 
 
 public class MainActivity extends FragmentActivity{
-
-
+    /*다른 액티비티에서 메인 액티비티를 접근할 수 있도록 레퍼런스 제공*/
+    static MainActivity mainActivity;
     ViewPager viewPager;
     MyFragmentAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity=this;
 
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         adapter =  new MyFragmentAdapter(getSupportFragmentManager());
@@ -32,7 +34,6 @@ public class MainActivity extends FragmentActivity{
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
     public void regist(){
        Toast.makeText(this,"글쓸꺼야?", Toast.LENGTH_SHORT).show();

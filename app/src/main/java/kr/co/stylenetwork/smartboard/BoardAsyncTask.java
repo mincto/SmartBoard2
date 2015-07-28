@@ -4,12 +4,17 @@
 package kr.co.stylenetwork.smartboard;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class BoardAsyncTask extends AsyncTask<String, Void, Object>{
     String commandType;
+    MainActivity mainActivity;
 
-    public BoardAsyncTask(String commandType) {
+    public BoardAsyncTask(String commandType, MainActivity mainActivity) {
         this.commandType = commandType;
+        this.mainActivity=mainActivity;
     }
 
     @Override
@@ -37,10 +42,29 @@ public class BoardAsyncTask extends AsyncTask<String, Void, Object>{
     }
 
     public void listView(Object obj){
+        /*ListView가 의존하고 있는 MyListAdapter의 ArrayList를
+        * 넘겨받은 obj로 변경하고, 리스트 어댑터 갱신!!
+        */
+        ListFragment listFragment=(ListFragment)mainActivity.adapter.getItem(0);
+        listFragment.adapter.list=(ArrayList)obj;
+
+        listFragment.adapter.notifyDataSetChanged();/*갱신*/
     }
     public void detailView(Object obj){
     }
     public void writeView(Object obj){
+        int result=(Integer)obj;
+
+
+        if(result !=0){/*성공한 경우*/
+            WriteActivity.writeActivity.finish();
+
+            /*웹서버와의 통신을 통해 새로운 데이터 가져와야 함*/
+            BoardAsyncTask task = new BoardAsyncTask("list", mainActivity);
+            task.execute("http://192.168.0.142:8080/android/board/list",null);
+        }else{/*실패한 경우*/
+            Toast.makeText(WriteActivity.writeActivity, "등록실패", Toast.LENGTH_SHORT ).show();
+        }
     }
     public void editView(Object obj){
     }

@@ -11,19 +11,33 @@ package kr.co.stylenetwork.smartboard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 public class WriteActivity extends Activity {
+    static WriteActivity writeActivity;
     String TAG;
+    EditText writer,title,content;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
         TAG=this.getClass().getName();
+        writeActivity=this;
+
+        writer=(EditText)findViewById(R.id.writer);
+        title=(EditText)findViewById(R.id.title);
+        content=(EditText)findViewById(R.id.content);
     }
 
     public void regist(){
-    }
+        String p1=writer.getText().toString();
+        String p2=title.getText().toString();
+        String p3=content.getText().toString();
 
+        BoardAsyncTask boardAsyncTask = new BoardAsyncTask("write", MainActivity.mainActivity );
+        boardAsyncTask.execute("http://192.168.0.142:8080/android/board/write"
+                , "writer="+p1+"&title="+p2+"&content="+p3);
+    }
 
     public void close(){
         this.finish();/*현재 액티비티 종료*/
