@@ -50,11 +50,3 @@ public class WriteActivity extends Activity {
 
     }
 }
-
-
-
-
-
-
-
-
